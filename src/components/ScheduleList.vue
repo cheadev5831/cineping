@@ -16,7 +16,7 @@
       >
         <!-- 극장 헤더 -->
         <div class="theater-header">
-          <span class="theater-name" :class="'chain-' + chainBadgeClass(theater.chain)">{{ theater.name }}</span>
+          <span class="theater-name">{{ theater.name }}</span>
         </div>
 
         <!-- 가로 스크롤 상영 시간 -->
@@ -32,14 +32,12 @@
                 v-for="s in hall.schedules"
                 :key="s.id"
                 class="showtime-btn"
-                :class="seatStatusClass(s.availableSeats)"
-                :disabled="s.availableSeats === 0"
                 @click="openBooking(s.bookingUrl)"
               >
                 <div class="showtime-btn-time-row">
                   <span class="showtime-btn-start">{{ s.startTime }}</span><span class="showtime-btn-end">~{{ s.endTime }}</span>
                 </div>
-                <span class="showtime-btn-hall" :class="screenTypeBadgeClass(hall.key)">{{ hall.key }}</span>
+                <span class="showtime-btn-hall">{{ hall.key }}</span>
               </button>
             </template>
           </div>
@@ -102,29 +100,6 @@ const grouped = computed(() => {
       })),
     }));
 });
-
-function chainBadgeClass(chain: string): string {
-  if (chain === 'CGV') return 'cgv';
-  if (chain === '롯데시네마') return 'lotte';
-  if (chain === '메가박스') return 'mega';
-  return '';
-}
-
-function screenTypeBadgeClass(type: string): string {
-  const t = type.toUpperCase();
-  if (t.includes('IMAX')) return 'imax';
-  if (t.includes('4DX')) return 'four-dx';
-  if (t.includes('SCREENX')) return 'screenx';
-  if (t.includes('DOLBY')) return 'dolby';
-  return 'type-2d';
-}
-
-function seatStatusClass(seats: number): string {
-  if (seats === 0) return 'sold-out';
-  if (seats <= 10) return 'almost-full';
-  if (seats <= 50) return 'available';
-  return 'normal';
-}
 
 
 function openBooking(url: string): void {

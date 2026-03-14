@@ -77,12 +77,6 @@
                     >등록일 {{ selectedMovie.createdAt?.slice(0, 10) }}</q-item-section
                   >
                 </q-item>
-                <q-item>
-                  <q-item-section avatar><q-icon name="track_changes" /></q-item-section>
-                  <q-item-section
-                    >알림 {{ selectedMovie.isTracking ? '활성' : '비활성' }}</q-item-section
-                  >
-                </q-item>
               </q-list>
             </div>
           </div>

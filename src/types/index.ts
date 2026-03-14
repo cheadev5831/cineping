@@ -5,7 +5,6 @@ export interface Movie {
   title: string;
   naverMovieId: string;
   poster: string;
-  isTracking: boolean;
   createdAt: string;
 }
 
@@ -18,7 +17,6 @@ export interface Schedule {
   startTime: string;
   endTime: string;
   screenType: string;
-  availableSeats: number;
   bookingUrl: string;
   lastUpdatedAt: string;
 }

@@ -185,7 +185,6 @@
   "poster": "https://...",
   "rating": "12",
   "runtime": 109,
-  "isTracking": true,
   "createdAt": "2026-03-14T00:00:00Z"
 }
 ```
@@ -212,7 +211,6 @@
   "endTime": "18:07",
   "screenType": "2D",
   "totalSeats": 249,
-  "availableSeats": 188,
   "seatStatus": "available",
   "bookingUrl": "https://...",
   "lastUpdatedAt": "2026-03-14T12:00:00Z"

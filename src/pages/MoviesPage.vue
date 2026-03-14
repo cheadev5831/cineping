@@ -17,14 +17,6 @@
       flat
       bordered
     >
-      <template #body-cell-isTracking="{ value }">
-        <q-td>
-          <q-badge :color="value ? 'positive' : 'grey'">
-            {{ value ? '감시 중' : '중지' }}
-          </q-badge>
-        </q-td>
-      </template>
-
       <template #body-cell-poster="{ value }">
         <q-td>
           <q-img
@@ -65,7 +57,6 @@
           <q-input v-model="form.title" label="영화 제목 *" outlined dense :rules="[required]" />
           <q-input v-model="form.naverMovieId" label="네이버 영화 ID" outlined dense />
           <q-input v-model="form.poster" label="포스터 URL" outlined dense />
-          <q-toggle v-model="form.isTracking" label="감시 활성화" />
         </q-card-section>
 
         <q-card-actions align="right">
@@ -110,7 +101,6 @@ const columns: QTableColumn[] = [
   { name: 'poster', label: '포스터', field: 'poster', align: 'center' },
   { name: 'title', label: '제목', field: 'title', align: 'left', sortable: true },
   { name: 'naverMovieId', label: '네이버 ID', field: 'naverMovieId', align: 'left' },
-  { name: 'isTracking', label: '상태', field: 'isTracking', align: 'center', sortable: true },
   { name: 'createdAt', label: '등록일', field: 'createdAt', align: 'left', sortable: true },
   { name: 'actions', label: '관리', field: 'actions', align: 'center' },
 ];
@@ -124,7 +114,6 @@ const emptyForm = () => ({
   title: '',
   naverMovieId: '',
   poster: '',
-  isTracking: true,
 });
 
 const form = ref(emptyForm());
@@ -136,7 +125,7 @@ function required(val: string) {
 function openDialog(movie?: Movie) {
   editTarget.value = movie ?? null;
   form.value = movie
-    ? { title: movie.title, naverMovieId: movie.naverMovieId, poster: movie.poster, isTracking: movie.isTracking }
+    ? { title: movie.title, naverMovieId: movie.naverMovieId, poster: movie.poster }
     : emptyForm();
   dialog.value = true;
 }

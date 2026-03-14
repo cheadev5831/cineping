@@ -74,7 +74,6 @@
             <q-input v-model="form.endTime" label="종료 시간 (HH:mm)" outlined dense class="col" />
           </div>
           <q-input v-model="form.screenType" label="상영관 타입 (IMAX, 4DX, 일반...)" outlined dense />
-          <q-input v-model.number="form.availableSeats" label="잔여 좌석" type="number" outlined dense />
           <q-input v-model="form.bookingUrl" label="예매 URL" outlined dense />
         </q-card-section>
 
@@ -125,7 +124,6 @@ const columns: QTableColumn[] = [
   { name: 'startTime', label: '시작', field: 'startTime', align: 'center' },
   { name: 'endTime', label: '종료', field: 'endTime', align: 'center' },
   { name: 'screenType', label: '상영관', field: 'screenType', align: 'center' },
-  { name: 'availableSeats', label: '잔여좌석', field: 'availableSeats', align: 'center', sortable: true },
   { name: 'actions', label: '관리', field: 'actions', align: 'center' },
 ];
 
@@ -153,7 +151,6 @@ const emptyForm = (): Omit<Schedule, 'id' | 'lastUpdatedAt'> => ({
   startTime: '',
   endTime: '',
   screenType: '일반',
-  availableSeats: 0,
   bookingUrl: '',
 });
 
