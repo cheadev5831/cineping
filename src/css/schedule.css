@@ -1,0 +1,238 @@
+/* ===========================
+   스케줄 목록 섹션
+=========================== */
+
+.schedule-section {
+  background: #f8f8f8;
+  min-height: 300px;
+  padding: 20px 0 40px;
+}
+
+.schedule-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 빈 상태 */
+.schedule-empty {
+  text-align: center;
+  padding: 80px 0;
+  color: #aaa;
+}
+
+/* 극장 카드 */
+.theater-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #ebebeb;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* 극장 헤더 */
+.theater-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.theater-favorite-btn {
+  color: #ccc !important;
+  transition: color 0.15s !important;
+}
+
+.theater-favorite-btn.favorited {
+  color: #fb4357 !important;
+}
+
+.theater-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  flex: 1;
+}
+
+.theater-chain-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid currentColor;
+}
+
+.theater-chain-badge.cgv {
+  color: #fb4357;
+  background: #fff5f5;
+  border-color: #fb4357;
+}
+
+.theater-chain-badge.lotte {
+  color: #e60012;
+  background: #fff5f5;
+  border-color: #e60012;
+}
+
+.theater-chain-badge.mega {
+  color: #0070d0;
+  background: #f0f6ff;
+  border-color: #0070d0;
+}
+
+.theater-info-link {
+  font-size: 12px;
+  color: #888;
+  text-decoration: none;
+  border-bottom: 1px solid #ccc;
+  white-space: nowrap;
+}
+
+.theater-info-link:hover {
+  color: #555;
+}
+
+/* 관(Hall) 행 */
+.hall-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.hall-row:last-child {
+  border-bottom: none;
+}
+
+/* 상영관 정보 */
+.hall-info {
+  flex-shrink: 0;
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.hall-name {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+}
+
+/* 상영 타입 뱃지 */
+.screen-type-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.screen-type-badge.imax {
+  background: #000;
+  color: #fff;
+}
+
+.screen-type-badge.four-dx {
+  background: #b8860b;
+  color: #fff;
+}
+
+.screen-type-badge.screenx {
+  background: #6a0dad;
+  color: #fff;
+}
+
+.screen-type-badge.dolby {
+  background: #1a1a2e;
+  color: #e0e0ff;
+}
+
+.screen-type-badge.type-2d {
+  background: #f0f0f0;
+  color: #555;
+  border: 1px solid #ddd;
+}
+
+/* 상영 시간 버튼 영역 */
+.showtime-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+/* 상영 시간 버튼 */
+.showtime-btn {
+  min-width: 90px;
+  height: auto !important;
+  padding: 8px 10px !important;
+  border-radius: 8px !important;
+  border: 1.5px solid !important;
+  text-align: left !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  transition: all 0.15s !important;
+  line-height: 1.2 !important;
+}
+
+.showtime-btn-start {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.showtime-btn-end {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.showtime-btn-seats {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* 좌석 상태별 색상 */
+.showtime-btn.available {
+  border-color: #fb4357 !important;
+  color: #fb4357 !important;
+  background: #fff !important;
+}
+
+.showtime-btn.available:hover {
+  background: #fff5f6 !important;
+}
+
+.showtime-btn.normal {
+  border-color: #4caf50 !important;
+  color: #2e7d32 !important;
+  background: #fff !important;
+}
+
+.showtime-btn.normal:hover {
+  background: #f1f8e9 !important;
+}
+
+.showtime-btn.almost-full {
+  border-color: #ff9800 !important;
+  color: #e65100 !important;
+  background: #fff !important;
+}
+
+.showtime-btn.almost-full:hover {
+  background: #fff8e1 !important;
+}
+
+.showtime-btn.sold-out {
+  border-color: #ccc !important;
+  color: #aaa !important;
+  background: #f5f5f5 !important;
+  cursor: not-allowed !important;
+  text-decoration: line-through;
+}

@@ -1,0 +1,120 @@
+/* ===========================
+   극장 필터 섹션
+=========================== */
+
+.theater-filter-section {
+  background: #f8f8f8;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.theater-filter-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 체인 선택 행 */
+.chain-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chain-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.chain-btn-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* 체인 버튼 */
+.chain-btn {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  border: 1px solid #ddd !important;
+  transition: all 0.15s !important;
+}
+
+.chain-btn.active {
+  background: #1c1c1c !important;
+  border-color: #1c1c1c !important;
+  color: #fff !important;
+}
+
+/* 체인 로고 아이콘 */
+.chain-logo-cgv {
+  color: #fb4357;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.chain-logo-lotte {
+  color: #e60012;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.chain-logo-mega {
+  color: #0070d0;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+/* 지역 선택 행 */
+.region-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.region-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.region-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 2px;
+}
+
+.region-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* 지역 버튼 */
+.region-btn {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px !important;
+  font-size: 13px !important;
+  border: 1px solid #ddd !important;
+  white-space: nowrap;
+  transition: all 0.15s !important;
+}
+
+.region-btn.active {
+  background: #fb4357 !important;
+  border-color: #fb4357 !important;
+  color: #fff !important;
+}

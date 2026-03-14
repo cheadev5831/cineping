@@ -1,0 +1,122 @@
+/* ===========================
+   날짜 선택 섹션
+=========================== */
+
+.date-selector-section {
+  background: #ffffff;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.date-selector-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* 선택된 영화 정보 헤더 */
+.movie-info-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.movie-info-poster {
+  width: 48px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.movie-info-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.movie-info-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-info-meta {
+  font-size: 13px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* 날짜 탭 행 */
+.date-tabs-row {
+  display: flex;
+  gap: 8px;
+  padding: 14px 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.date-tabs-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* 날짜 버튼 */
+.date-btn {
+  flex: 0 0 72px;
+  height: 64px;
+  border-radius: 10px !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: all 0.15s !important;
+  border: 1px solid #e0e0e0 !important;
+}
+
+.date-btn-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.date-btn-day {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.date-btn-num {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.date-btn-sub {
+  font-size: 10px;
+  margin-top: 1px;
+}
+
+/* 선택된 날짜 */
+.date-btn-selected {
+  background: #fb4357 !important;
+  border-color: #fb4357 !important;
+  color: #fff !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(251, 67, 87, 0.35) !important;
+}
+
+/* 오늘 (미선택) */
+.date-btn-today {
+  border-color: #fb4357 !important;
+  color: #fb4357 !important;
+}
+
+/* 비활성화 날짜 */
+.date-btn-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

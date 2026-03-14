@@ -1,17 +1,61 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpR fFf">
+
+    <!-- 헤더 -->
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-        <q-toolbar-title>🎬 cineping</q-toolbar-title>
+        <!-- 로고 -->
+        <router-link to="/" class="cineping-logo">
+          <q-icon name="movie" size="24px" class="q-mr-xs" />
+          <span>cineping</span>
+        </router-link>
+
+        <q-space />
+
+        <!-- 데스크탑 네비게이션 -->
+        <nav class="gt-sm row items-center q-gutter-sm">
+          <q-btn
+            v-for="item in navItems"
+            :key="item.to"
+            flat
+            no-caps
+            :label="item.label"
+            :to="item.to"
+            :icon="item.icon"
+            size="sm"
+          />
+        </nav>
+
+        <!-- 모바일 메뉴 버튼 -->
+        <q-btn
+          class="lt-md"
+          flat
+          round
+          icon="menu"
+          @click="drawerOpen = !drawerOpen"
+          aria-label="메뉴"
+        />
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header>메뉴</q-item-label>
-
-        <q-item v-for="item in navItems" :key="item.to" clickable :to="item.to" active-class="text-primary">
+    <!-- 모바일 드로어 -->
+    <q-drawer
+      v-model="drawerOpen"
+      side="right"
+      overlay
+      bordered
+      :width="220"
+    >
+      <q-list class="q-pt-md">
+        <q-item-label header class="text-weight-bold text-grey-7">메뉴</q-item-label>
+        <q-item
+          v-for="item in navItems"
+          :key="item.to"
+          clickable
+          :to="item.to"
+          active-class="text-primary"
+          @click="drawerOpen = false"
+        >
           <q-item-section avatar>
             <q-icon :name="item.icon" />
           </q-item-section>
@@ -20,23 +64,22 @@
       </q-list>
     </q-drawer>
 
+    <!-- 본문 -->
     <q-page-container>
       <router-view />
     </q-page-container>
+
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import 'src/css/layout.css';
 
-const leftDrawerOpen = ref(false);
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
+const drawerOpen = ref(false);
 
 const navItems = [
-  { to: '/', label: '홈', icon: 'home' },
+  { to: '/', label: '스케줄 조회', icon: 'search' },
   { to: '/movies', label: '영화 관리', icon: 'movie' },
   { to: '/schedules', label: '스케줄 관리', icon: 'event' },
   { to: '/users', label: '사용자 관리', icon: 'people' },

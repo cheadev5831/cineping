@@ -1,0 +1,145 @@
+/* ===========================
+   영화 캐러셀 섹션
+=========================== */
+
+.movie-carousel-section {
+  background: #1c1c1c;
+  padding: 24px 0;
+}
+
+.movie-carousel-wrapper {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 52px;
+}
+
+.movie-carousel-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
+}
+
+.movie-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* 개별 포스터 아이템 */
+.movie-poster-item {
+  flex: 0 0 152px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.movie-poster-item:hover {
+  transform: translateY(-4px);
+}
+
+/* 포스터 이미지 래퍼 */
+.movie-poster-img-wrap {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  background: #333;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  transition: box-shadow 0.2s;
+}
+
+.movie-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+  display: block;
+}
+
+.movie-poster-item:hover .movie-poster-img {
+  transform: scale(1.05);
+}
+
+/* 선택된 영화 */
+.movie-poster-item.selected .movie-poster-img-wrap {
+  box-shadow: 0 0 0 4px #fb4357;
+}
+
+/* 호버 오버레이 */
+.movie-poster-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.3s;
+}
+
+.movie-poster-item:hover .movie-poster-overlay {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* 순위 뱃지 */
+.movie-rank-badge {
+  position: absolute !important;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.75) !important;
+  font-size: 12px !important;
+  padding: 3px 7px !important;
+  border-radius: 4px !important;
+}
+
+/* 등급 뱃지 */
+.movie-rating-badge {
+  position: absolute !important;
+  top: 8px;
+  right: 8px;
+  background: #fb4357 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 3px 7px !important;
+  border-radius: 4px !important;
+}
+
+/* 영화 제목 */
+.movie-poster-title {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 메타 정보 */
+.movie-poster-meta {
+  color: #999;
+  font-size: 12px;
+}
+
+/* 이전/다음 화살표 버튼 */
+.carousel-arrow {
+  position: absolute !important;
+  top: 38% !important;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-radius: 50% !important;
+}
+
+.carousel-arrow:hover {
+  background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.carousel-arrow-left {
+  left: 4px;
+}
+
+.carousel-arrow-right {
+  right: 4px;
+}
