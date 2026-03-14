@@ -2,18 +2,6 @@
   <div class="movie-carousel-section">
     <div class="movie-carousel-wrapper">
 
-      <!-- 이전 버튼 -->
-      <q-btn
-        class="carousel-arrow carousel-arrow-left"
-        round
-        flat
-        icon="chevron_left"
-        color="white"
-        size="md"
-        @click="scrollPrev"
-        aria-label="이전"
-      />
-
       <!-- 포스터 스크롤 트랙 -->
       <div ref="trackRef" class="movie-carousel-track">
         <div
@@ -31,9 +19,6 @@
               class="movie-poster-img"
             />
 
-            <!-- 순위 뱃지 -->
-            <span class="movie-rank-badge">{{ index + 1 }}</span>
-
             <!-- 호버 오버레이 -->
             <div class="movie-poster-overlay" />
           </div>
@@ -48,28 +33,17 @@
         </div>
       </div>
 
-      <!-- 다음 버튼 -->
-      <q-btn
-        class="carousel-arrow carousel-arrow-right"
-        round
-        flat
-        icon="chevron_right"
-        color="white"
-        size="md"
-        @click="scrollNext"
-        aria-label="다음"
-      />
 
-    </div>
+</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import type { Movie } from 'src/types';
 import 'src/css/movie-carousel.css';
 
-defineProps<{
+const props = defineProps<{
   movies: Movie[];
   selectedId: string;
 }>();
@@ -78,11 +52,12 @@ defineEmits<{ select: [movie: Movie] }>();
 
 const trackRef = ref<HTMLElement | null>(null);
 
-function scrollPrev() {
-  trackRef.value?.scrollBy({ left: -480, behavior: 'smooth' });
+async function centerSelected(): Promise<void> {
+  await nextTick();
+  if (!trackRef.value) return;
+  const selected = trackRef.value.querySelector('.selected') as HTMLElement | null;
+  selected?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
 }
 
-function scrollNext() {
-  trackRef.value?.scrollBy({ left: 480, behavior: 'smooth' });
-}
+watch(() => props.selectedId, centerSelected);
 </script>
