@@ -2,18 +2,28 @@
   <div class="theater-filter-section">
     <div class="theater-filter-inner">
 
-      <!-- 극장 체인 선택 (단일 선택) -->
-      <q-select
-        :model-value="chainModel"
-        :options="CHAINS"
-        outlined
+      <!-- 극장 체인 드롭다운 (단일 선택) -->
+      <q-btn-dropdown
+        :label="chainModel"
+        outline
         dense
-        label="극장"
-        emit-value
-        map-options
-        class="filter-select"
-        @update:model-value="$emit('update:chainModel', $event)"
-      />
+        no-caps
+        class="chain-dropdown"
+      >
+        <q-list dense>
+          <q-item
+            v-for="c in CHAINS"
+            :key="c.value"
+            v-close-popup
+            clickable
+            :active="chainModel === c.value"
+            active-class="chain-item-active"
+            @click="$emit('update:chainModel', c.value)"
+          >
+            <q-item-section>{{ c.label }}</q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
 
       <!-- 지역 선택 -->
       <q-select

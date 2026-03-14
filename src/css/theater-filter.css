@@ -15,8 +15,19 @@
   gap: 12px;
 }
 
-/* 셀렉트 박스 공통 — 각각 50% 너비 */
+/* 지역 셀렉트 */
 .filter-select {
   flex: 1;
   background: #ffffff;
+}
+
+/* 극장 드롭다운 버튼 */
+.chain-dropdown {
+  min-width: 110px;
+}
+
+/* 드롭다운 선택된 항목 */
+.chain-item-active {
+  color: #fb4357 !important;
+  font-weight: 600;
 }
