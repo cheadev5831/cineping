@@ -5,7 +5,7 @@
       <!-- 포스터 스크롤 트랙 -->
       <div ref="trackRef" class="movie-carousel-track">
         <div
-          v-for="(movie, index) in movies"
+          v-for="movie in movies"
           :key="movie.id"
           class="movie-poster-item"
           :class="{ selected: selectedId === movie.id }"
@@ -56,7 +56,7 @@ async function centerSelected(): Promise<void> {
   await nextTick();
   if (!trackRef.value) return;
   const track = trackRef.value;
-  const selected = track.querySelector('.selected') as HTMLElement | null;
+  const selected = track.querySelector<HTMLElement>('.selected');
   if (!selected) return;
 
   // CSS 브레이크포인트별 선택 아이템 최종 너비 (CSS와 동기화 필수)
