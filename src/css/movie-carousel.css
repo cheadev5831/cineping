@@ -17,6 +17,7 @@
 
 .movie-carousel-track {
   display: flex;
+  align-items: center;
   gap: 10px;
   overflow-x: auto;
   overflow-y: visible;
@@ -54,17 +55,16 @@
   display: none;
 }
 
-/* 개별 포스터 아이템
-   360px 기준: U=95, S=120, gap=10
-   → 조건: U ≥ halfTrack - S/2 - 2×gap = 172 - 60 - 20 = 92 ✓ (95 > 92 → 3개만 표시) */
+/* 개별 포스터 아이템 */
 .movie-poster-item {
-  flex: 0 0 95px;
+  flex: 0 0 80px;
   cursor: pointer;
   border-radius: 8px;
   transition:
     transform 0.25s,
     flex-basis 0.3s;
   opacity: 0.6;
+  margin: 0 3%;
 }
 
 .movie-poster-item:hover {
@@ -74,7 +74,7 @@
 
 /* 선택된 영화 — 크게 + 선명하게 */
 .movie-poster-item.selected {
-  flex: 0 0 120px;
+  flex: 0 0 112px;
   opacity: 1;
   transform: translateY(-6px);
 }
