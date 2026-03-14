@@ -129,18 +129,6 @@
   background: rgba(0, 0, 0, 0.25);
 }
 
-/* 등급 뱃지 */
-.movie-rating-badge {
-  position: absolute !important;
-  top: 8px;
-  right: 8px;
-  background: #2d6a4f !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  padding: 3px 7px !important;
-  border-radius: 4px !important;
-}
-
 /* 영화 제목 — normal flow, 선택된 포스터 이미지 바로 아래 표시 */
 .movie-poster-title {
   display: none;
@@ -158,12 +146,6 @@
 /* 선택된 영화만 제목 표시 */
 .movie-poster-item.selected .movie-poster-title {
   display: -webkit-box;
-}
-
-/* 메타 정보 */
-.movie-poster-meta {
-  color: #999;
-  font-size: 12px;
 }
 
 /* 스켈레톤 포스터 */

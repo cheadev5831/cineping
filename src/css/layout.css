@@ -32,8 +32,3 @@
   opacity: 0.9;
 }
 
-/* 최대 너비 컨테이너 */
-.container-max-width {
-  max-width: 1280px;
-  margin: 0 auto;
-}
