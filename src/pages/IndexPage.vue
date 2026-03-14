@@ -12,10 +12,8 @@
     <template v-if="selectedMovie">
       <!-- 날짜 선택 -->
       <DateSelector
-        :movie="selectedMovie"
         v-model="selectedDate"
         :available-dates="availableDates"
-        @detail="showDetailModal = true"
       />
 
       <!-- 극장 필터 -->
@@ -29,8 +27,6 @@
       <ScheduleList
         v-if="!schedulesLoading"
         :schedules="filteredSchedules"
-        :favorites="favoriteTheaters"
-        @toggle-favorite="onToggleFavorite"
       />
     </template>
 
@@ -103,9 +99,8 @@ const schedulesStore = useSchedulesStore();
 const selectedMovie = ref<Movie | null>(null);
 const selectedDate = ref('');
 const selectedChain = ref('극장 전체');
-const selectedRegion = ref<string[]>([]);
+const selectedRegion = ref('서울');
 const showDetailModal = ref(false);
-const favoriteTheaters = ref<string[]>([]);
 
 const movies = computed(() => moviesStore.movies);
 const schedulesLoading = computed(() => schedulesStore.loading);
@@ -135,17 +130,8 @@ async function onMovieSelect(movie: Movie): Promise<void> {
   selectedMovie.value = movie;
   selectedDate.value = todayStr();
   selectedChain.value = '극장 전체';
-  selectedRegion.value = [];
+  selectedRegion.value = '서울';
   await schedulesStore.fetchByMovie(movie.id);
-}
-
-function onToggleFavorite(theaterName: string): void {
-  const idx = favoriteTheaters.value.indexOf(theaterName);
-  if (idx === -1) {
-    favoriteTheaters.value.push(theaterName);
-  } else {
-    favoriteTheaters.value.splice(idx, 1);
-  }
 }
 
 onMounted(async () => {

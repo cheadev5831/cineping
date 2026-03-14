@@ -66,10 +66,7 @@ interface TheaterGroup {
 
 const props = defineProps<{
   schedules: Schedule[];
-  favorites: string[];
 }>();
-
-defineEmits<{ toggleFavorite: [name: string] }>();
 
 /* 즐겨찾기 극장 우선 → 이름순 정렬 후 그룹화 */
 const grouped = computed(() => {
@@ -86,12 +83,7 @@ const grouped = computed(() => {
   }
 
   return Object.values(map)
-    .sort((a, b) => {
-      const aFav = props.favorites.includes(a.name) ? 0 : 1;
-      const bFav = props.favorites.includes(b.name) ? 0 : 1;
-      if (aFav !== bFav) return aFav - bFav;
-      return a.name.localeCompare(b.name);
-    })
+    .sort((a, b) => a.name.localeCompare(b.name))
     .map((t) => ({
       ...t,
       halls: Object.entries(t.halls).map(([key, list]) => ({

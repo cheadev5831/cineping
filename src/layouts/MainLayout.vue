@@ -81,7 +81,6 @@ const drawerOpen = ref(false);
 const navItems = [
   { to: '/', label: '스케줄 조회', icon: 'search' },
   { to: '/movies', label: '영화 관리', icon: 'movie' },
-  { to: '/schedules', label: '스케줄 관리', icon: 'event' },
   { to: '/users', label: '사용자 관리', icon: 'people' },
 ];
 </script>

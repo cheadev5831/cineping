@@ -31,16 +31,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Movie } from 'src/types';
 import 'src/css/date-selector.css';
 
 const props = defineProps<{
-  movie: Movie;
   modelValue: string;
   availableDates: string[];
 }>();
 
-defineEmits<{ 'update:modelValue': [value: string]; detail: [] }>();
+defineEmits<{ 'update:modelValue': [value: string] }>();
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
