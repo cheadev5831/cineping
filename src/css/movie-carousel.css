@@ -25,9 +25,9 @@
   -ms-overflow-style: none;
   padding-top: 12px;
   padding-bottom: 8px;
-  /* 초기 렌더 폴백 — JS가 정확한 값으로 즉시 덮어씌움 (S=130 기준 65px) */
-  padding-left: calc(50% - 65px);
-  padding-right: calc(50% - 65px);
+  /* 초기 렌더 폴백 — JS가 정확한 값으로 즉시 덮어씌움 (S=120 기준 60px) */
+  padding-left: calc(50% - 60px);
+  padding-right: calc(50% - 60px);
 }
 
 /* 태블릿 (600px+) */
@@ -55,10 +55,10 @@
 }
 
 /* 개별 포스터 아이템
-   360px 기준: U=100, S=130, gap=10
-   → 조건: U ≥ halfTrack - S/2 - 2×gap = 172 - 65 - 20 = 87 ✓ (100 > 87 → 3개만 표시) */
+   360px 기준: U=95, S=120, gap=10
+   → 조건: U ≥ halfTrack - S/2 - 2×gap = 172 - 60 - 20 = 92 ✓ (95 > 92 → 3개만 표시) */
 .movie-poster-item {
-  flex: 0 0 100px;
+  flex: 0 0 95px;
   cursor: pointer;
   border-radius: 8px;
   transition:
@@ -74,7 +74,7 @@
 
 /* 선택된 영화 — 크게 + 선명하게 */
 .movie-poster-item.selected {
-  flex: 0 0 130px;
+  flex: 0 0 120px;
   opacity: 1;
   transform: translateY(-6px);
 }
@@ -82,20 +82,20 @@
 /* 태블릿 (600px+) */
 @media (min-width: 600px) {
   .movie-poster-item {
-    flex: 0 0 110px;
+    flex: 0 0 90px;
   }
   .movie-poster-item.selected {
-    flex: 0 0 150px;
+    flex: 0 0 125px;
   }
 }
 
 /* 데스크탑 (1024px+) */
 @media (min-width: 1024px) {
   .movie-poster-item {
-    flex: 0 0 110px;
+    flex: 0 0 90px;
   }
   .movie-poster-item.selected {
-    flex: 0 0 160px;
+    flex: 0 0 135px;
   }
 }
 

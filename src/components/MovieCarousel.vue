@@ -61,7 +61,7 @@ async function centerSelected(): Promise<void> {
 
   // CSS 브레이크포인트별 선택 아이템 최종 너비 (CSS와 동기화 필수)
   const vw = window.innerWidth;
-  const selWidth = vw >= 1024 ? 160 : vw >= 600 ? 150 : 130;
+  const selWidth = vw >= 1024 ? 135 : vw >= 600 ? 125 : 120;
   const halfSel = selWidth / 2;
   const halfTrack = track.clientWidth / 2;
 
