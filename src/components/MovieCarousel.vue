@@ -55,8 +55,25 @@ const trackRef = ref<HTMLElement | null>(null);
 async function centerSelected(): Promise<void> {
   await nextTick();
   if (!trackRef.value) return;
-  const selected = trackRef.value.querySelector('.selected') as HTMLElement | null;
-  selected?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  const track = trackRef.value;
+  const selected = track.querySelector('.selected') as HTMLElement | null;
+  if (!selected) return;
+
+  // CSS 브레이크포인트별 선택 아이템 최종 너비
+  const vw = window.innerWidth;
+  const selWidth = vw >= 1024 ? 160 : vw >= 600 ? 130 : 110;
+  const halfSel = selWidth / 2;
+  const halfTrack = track.clientWidth / 2;
+
+  // 첫/마지막 아이템도 정중앙 정렬이 되도록 인라인 패딩 설정
+  track.style.paddingLeft = `${halfTrack - halfSel}px`;
+  track.style.paddingRight = `${halfTrack - halfSel}px`;
+
+  // 패딩 변경 후 레이아웃 즉시 반영 (강제 리플로우)
+  void track.offsetWidth;
+
+  const scrollLeft = selected.offsetLeft - halfTrack + halfSel;
+  track.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
 }
 
 watch(() => props.selectedId, centerSelected);

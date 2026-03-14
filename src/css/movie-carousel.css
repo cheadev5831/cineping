@@ -17,7 +17,6 @@
 
 .movie-carousel-track {
   display: flex;
-  /* 모바일 기본 gap */
   gap: 10px;
   overflow-x: auto;
   overflow-y: visible;
@@ -26,7 +25,7 @@
   -ms-overflow-style: none;
   padding-top: 12px;
   padding-bottom: 8px;
-  /* 선택 아이템(110px) 절반(55px)을 기준 — 모바일 기본 */
+  /* 초기 렌더 폴백 — JS가 정확한 값으로 즉시 덮어씌움 */
   padding-left: calc(50% - 55px);
   padding-right: calc(50% - 55px);
 }
@@ -38,9 +37,6 @@
   }
   .movie-carousel-track {
     gap: 12px;
-    /* 선택 아이템(130px) 절반(65px) 기준 */
-    padding-left: calc(50% - 65px);
-    padding-right: calc(50% - 65px);
   }
 }
 
@@ -51,9 +47,6 @@
   }
   .movie-carousel-track {
     gap: 14px;
-    /* 선택 아이템(160px) 절반(80px) 기준 */
-    padding-left: calc(50% - 80px);
-    padding-right: calc(50% - 80px);
   }
 }
 
