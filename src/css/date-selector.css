@@ -12,43 +12,6 @@
   margin: 0 auto;
 }
 
-/* 선택된 영화 정보 헤더 */
-.movie-info-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 24px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.movie-info-poster {
-  width: 48px;
-  height: 72px;
-  object-fit: cover;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.movie-info-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.movie-info-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: #111;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.movie-info-meta {
-  font-size: 13px;
-  color: #888;
-  margin-top: 2px;
-}
-
 /* 날짜 탭 행 */
 .date-tabs-row {
   display: flex;

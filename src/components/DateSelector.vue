@@ -2,31 +2,6 @@
   <div class="date-selector-section">
     <div class="date-selector-inner">
 
-      <!-- 선택된 영화 정보 헤더 -->
-      <div class="movie-info-header">
-        <img
-          :src="movie.poster || 'https://via.placeholder.com/48x72?text='"
-          :alt="movie.title"
-          class="movie-info-poster"
-        />
-        <div class="movie-info-text">
-          <div class="movie-info-title">{{ movie.title }}</div>
-          <div class="movie-info-meta">
-            <q-badge color="grey-6">추적중</q-badge>
-          </div>
-        </div>
-        <q-space />
-        <q-btn
-          outline
-          color="primary"
-          icon="info_outline"
-          label="상세정보"
-          size="sm"
-          no-caps
-          @click="$emit('detail')"
-        />
-      </div>
-
       <!-- 날짜 탭 -->
       <div class="date-tabs-row">
         <button
