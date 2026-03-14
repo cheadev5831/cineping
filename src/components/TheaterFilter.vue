@@ -2,18 +2,15 @@
   <div class="theater-filter-section">
     <div class="theater-filter-inner">
 
-      <!-- 극장 체인 선택 -->
+      <!-- 극장 체인 선택 (단일 선택) -->
       <q-select
         :model-value="chainModel"
         :options="CHAINS"
-        multiple
-        use-chips
         outlined
         dense
         label="극장"
         emit-value
         map-options
-        placeholder="전체"
         class="filter-select"
         @update:model-value="$emit('update:chainModel', $event)"
       />
@@ -40,12 +37,12 @@
 import 'src/css/theater-filter.css';
 
 defineProps<{
-  chainModel: string[];
+  chainModel: string;
   regionModel: string[];
 }>();
 
 defineEmits<{
-  'update:chainModel': [value: string[]];
+  'update:chainModel': [value: string];
   'update:regionModel': [value: string[]];
 }>();
 
