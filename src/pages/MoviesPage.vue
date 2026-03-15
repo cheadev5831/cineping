@@ -2,6 +2,26 @@
   <q-page class="q-pa-md">
     <div class="row items-center q-mb-md">
       <div class="text-h5 col">영화 관리</div>
+      <q-btn
+        color="teal"
+        icon="travel_explore"
+        label="영화 스크래핑"
+        class="q-mr-sm"
+        :loading="store.scrapeLoading"
+        @click="runMovieScrape"
+      >
+        <q-tooltip>네이버 현재 상영 영화 자동 수집</q-tooltip>
+      </q-btn>
+      <q-btn
+        color="deep-orange"
+        icon="event_note"
+        label="스케줄 수집"
+        class="q-mr-sm"
+        :loading="schedulesStore.scrapeLoading"
+        @click="runScheduleScrape"
+      >
+        <q-tooltip>DB 영화 전체 상영 스케줄 수집 (7일치)</q-tooltip>
+      </q-btn>
       <q-btn color="primary" icon="add" label="영화 추가" @click="openMovieDialog()" />
     </div>
 
@@ -14,6 +34,8 @@
       :columns="columns"
       row-key="id"
       :loading="store.loading"
+      :rows-per-page-options="[8, 16, 24, 0]"
+      :pagination="{ rowsPerPage: 8 }"
       flat
       bordered
     >
@@ -38,6 +60,17 @@
           </q-btn>
           <q-btn flat round dense icon="edit" color="primary" @click="openMovieDialog(props.row)" />
           <q-btn flat round dense icon="delete" color="negative" @click="confirmDelete(props.row.id)" />
+          <q-btn flat round dense icon="event_busy" color="orange" @click="confirmDeleteSchedules(props.row)">
+            <q-tooltip>스케줄 전체 삭제</q-tooltip>
+          </q-btn>
+          <q-btn
+            flat round dense icon="cloud_download" color="deep-orange"
+            :loading="schedulesStore.scrapeLoadingMovies.has(props.row.id)"
+            :disable="!props.row.naverMovieId"
+            @click="runMovieScheduleScrape(props.row)"
+          >
+            <q-tooltip>{{ props.row.naverMovieId ? '스케줄 수집' : 'naverMovieId 없음' }}</q-tooltip>
+          </q-btn>
         </q-td>
       </template>
     </q-table>
@@ -118,6 +151,122 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- 스케줄 전체 삭제 확인 -->
+    <q-dialog v-model="deleteSchedulesDialog">
+      <q-card>
+        <q-card-section class="text-h6">스케줄 전체 삭제</q-card-section>
+        <q-card-section class="text-body2 q-pt-none">
+          <strong>{{ deleteSchedulesTarget?.title }}</strong>의 스케줄
+          <q-badge color="negative" :label="deleteSchedulesCount" class="q-mx-xs" />
+          개를 모두 삭제하시겠습니까?
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="취소" v-close-popup />
+          <q-btn color="negative" label="삭제" :loading="schedulesStore.loading" @click="doDeleteSchedules" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- 영화별 스케줄 수집 결과 -->
+    <q-dialog v-model="movieScheduleScrapeDialog">
+      <q-card style="min-width: 280px">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">스케줄 수집 완료</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section v-if="movieScheduleScrapeResult">
+          <div class="text-body2 q-mb-sm text-grey-7">{{ movieScheduleScrapeResult.title }}</div>
+          <q-item>
+            <q-item-section avatar><q-icon name="event_note" color="positive" /></q-item-section>
+            <q-item-section>
+              <q-item-label>저장된 스케줄</q-item-label>
+              <q-item-label caption>{{ movieScheduleScrapeResult.schedulesAdded }}개</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="primary" label="확인" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- 영화 스크래핑 결과 -->
+    <q-dialog v-model="movieScrapeDialog">
+      <q-card style="min-width: 300px">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">영화 스크래핑 완료</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section v-if="movieScrapeResult">
+          <q-list>
+            <q-item>
+              <q-item-section avatar><q-icon name="add_circle" color="positive" /></q-item-section>
+              <q-item-section>
+                <q-item-label>신규 추가</q-item-label>
+                <q-item-label caption>{{ movieScrapeResult.added }}개</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section avatar><q-icon name="skip_next" color="grey" /></q-item-section>
+              <q-item-section>
+                <q-item-label>중복 스킵</q-item-label>
+                <q-item-label caption>{{ movieScrapeResult.skipped }}개</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="primary" label="확인" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- 스케줄 수집 결과 -->
+    <q-dialog v-model="scheduleScrapeDialog">
+      <q-card style="min-width: 320px">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">스케줄 수집 완료</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section v-if="scheduleScrapeResult">
+          <q-list>
+            <q-item>
+              <q-item-section avatar><q-icon name="movie" color="deep-orange" /></q-item-section>
+              <q-item-section>
+                <q-item-label>처리 영화</q-item-label>
+                <q-item-label caption>{{ scheduleScrapeResult.moviesProcessed }}개</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section avatar><q-icon name="event_note" color="positive" /></q-item-section>
+              <q-item-section>
+                <q-item-label>저장된 스케줄</q-item-label>
+                <q-item-label caption>{{ scheduleScrapeResult.schedulesAdded }}개</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="scheduleScrapeResult.errors.length > 0">
+              <q-item-section avatar><q-icon name="warning" color="negative" /></q-item-section>
+              <q-item-section>
+                <q-item-label>오류</q-item-label>
+                <q-item-label
+                  v-for="(err, i) in scheduleScrapeResult.errors"
+                  :key="i"
+                  caption
+                  class="text-negative"
+                >{{ err }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="primary" label="확인" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -126,6 +275,7 @@ import { ref, onMounted } from 'vue';
 import { useMoviesStore } from 'src/stores/moviesStore';
 import { useSchedulesStore } from 'src/stores/schedulesStore';
 import type { Movie, ChainType } from 'src/types';
+import type { ScrapeResult, ScrapeScheduleResult, ScrapeMovieScheduleResult } from 'src/services/scraperService';
 import type { QTableColumn } from 'quasar';
 
 const store = useMoviesStore();
@@ -135,7 +285,7 @@ const columns: QTableColumn[] = [
   { name: 'poster', label: '포스터', field: 'poster', align: 'center' },
   { name: 'title', label: '제목', field: 'title', align: 'left', sortable: true },
   { name: 'naverMovieId', label: '네이버 ID', field: 'naverMovieId', align: 'left' },
-  { name: 'createdAt', label: '등록일', field: 'createdAt', align: 'left', sortable: true },
+  { name: 'createdAt', label: '등록일', field: 'createdAt', align: 'left', sortable: true, format: (val: string) => val ? val.substring(0, 10).replace(/-/g, '/') : '-' },
   { name: 'actions', label: '관리', field: 'actions', align: 'center' },
 ];
 
@@ -262,6 +412,71 @@ async function doDelete() {
 
 function required(val: string) {
   return !!val || '필수 입력 항목입니다.';
+}
+
+// ── 스케줄 전체 삭제 ──────────────────────────────────────────────
+const deleteSchedulesDialog = ref(false);
+const deleteSchedulesTarget = ref<Movie | null>(null);
+const deleteSchedulesCount = ref(0);
+
+async function confirmDeleteSchedules(movie: Movie) {
+  deleteSchedulesTarget.value = movie;
+  deleteSchedulesCount.value = 0;
+  deleteSchedulesDialog.value = true;
+  const list = await schedulesStore.fetchByMovieCount(movie.id);
+  deleteSchedulesCount.value = list;
+}
+
+async function doDeleteSchedules() {
+  if (!deleteSchedulesTarget.value) return;
+  try {
+    await schedulesStore.deleteAllByMovie(deleteSchedulesTarget.value.id);
+    deleteSchedulesDialog.value = false;
+  } catch {
+    // schedulesStore.error 로 표시됨
+  }
+}
+
+// ── 영화 스크래핑 ─────────────────────────────────────────────────
+const movieScrapeDialog = ref(false);
+const movieScrapeResult = ref<ScrapeResult | null>(null);
+
+async function runMovieScrape() {
+  try {
+    const result = await store.scrapeFromNaver();
+    movieScrapeResult.value = result;
+    movieScrapeDialog.value = true;
+  } catch {
+    // store.error 로 표시됨
+  }
+}
+
+// ── 스케줄 전체 수집 (글로벌) ─────────────────────────────────────
+const scheduleScrapeDialog = ref(false);
+const scheduleScrapeResult = ref<ScrapeScheduleResult | null>(null);
+
+async function runScheduleScrape() {
+  try {
+    const result = await schedulesStore.scrapeSchedulesFromNaver();
+    scheduleScrapeResult.value = result;
+    scheduleScrapeDialog.value = true;
+  } catch {
+    // schedulesStore.error 로 표시됨
+  }
+}
+
+// ── 스케줄 개별 수집 (영화별) ─────────────────────────────────────
+const movieScheduleScrapeDialog = ref(false);
+const movieScheduleScrapeResult = ref<ScrapeMovieScheduleResult & { title: string } | null>(null);
+
+async function runMovieScheduleScrape(movie: Movie) {
+  try {
+    const result = await schedulesStore.scrapeScheduleForMovie(movie.id);
+    movieScheduleScrapeResult.value = { ...result, title: movie.title };
+    movieScheduleScrapeDialog.value = true;
+  } catch {
+    // schedulesStore.error 로 표시됨
+  }
 }
 
 onMounted(() => store.fetchMovies());

@@ -2,6 +2,12 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useFirestore } from 'src/composables/useFirestore';
 import type { Schedule } from 'src/types';
+import {
+  scrapeNaverSchedules,
+  scrapeNaverScheduleForMovie,
+  type ScrapeScheduleResult,
+  type ScrapeMovieScheduleResult,
+} from 'src/services/scraperService';
 
 const COLLECTION = 'schedules';
 
@@ -11,6 +17,8 @@ export const useSchedulesStore = defineStore('schedulesStore', () => {
   const schedules = ref<Schedule[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
+  const scrapeLoading = ref(false);
+  const scrapeLoadingMovies = ref<Set<string>>(new Set());
 
   async function fetchSchedules() {
     loading.value = true;
@@ -79,14 +87,72 @@ export const useSchedulesStore = defineStore('schedulesStore', () => {
     }
   }
 
+  async function fetchByMovieCount(movieId: string): Promise<number> {
+    try {
+      const list = await getWhere<Schedule>(COLLECTION, 'movieId', '==', movieId);
+      return list.length;
+    } catch {
+      return 0;
+    }
+  }
+
+  async function deleteAllByMovie(movieId: string) {
+    loading.value = true;
+    error.value = null;
+    try {
+      const targets = await getWhere<Schedule>(COLLECTION, 'movieId', '==', movieId);
+      await Promise.all(targets.map((s) => remove(COLLECTION, s.id)));
+      schedules.value = schedules.value.filter((s) => s.movieId !== movieId);
+    } catch (e) {
+      error.value = (e as Error).message;
+      throw e;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function scrapeScheduleForMovie(movieId: string): Promise<ScrapeMovieScheduleResult> {
+    scrapeLoadingMovies.value = new Set([...scrapeLoadingMovies.value, movieId]);
+    error.value = null;
+    try {
+      return await scrapeNaverScheduleForMovie(movieId);
+    } catch (e) {
+      error.value = (e as Error).message;
+      throw e;
+    } finally {
+      const next = new Set(scrapeLoadingMovies.value);
+      next.delete(movieId);
+      scrapeLoadingMovies.value = next;
+    }
+  }
+
+  async function scrapeSchedulesFromNaver(): Promise<ScrapeScheduleResult> {
+    scrapeLoading.value = true;
+    error.value = null;
+    try {
+      return await scrapeNaverSchedules();
+    } catch (e) {
+      error.value = (e as Error).message;
+      throw e;
+    } finally {
+      scrapeLoading.value = false;
+    }
+  }
+
   return {
     schedules,
     loading,
     error,
+    scrapeLoading,
+    scrapeLoadingMovies,
     fetchSchedules,
     fetchByMovie,
     addSchedule,
     editSchedule,
     deleteSchedule,
+    fetchByMovieCount,
+    deleteAllByMovie,
+    scrapeScheduleForMovie,
+    scrapeSchedulesFromNaver,
   };
 });

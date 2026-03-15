@@ -7,16 +7,38 @@ export interface ScrapeResult {
   total: number;
 }
 
-export async function scrapeNaverMovies(): Promise<ScrapeResult> {
-  const res = await fetch(`${SCRAPER_URL}/api/scrape/movies`, {
+export interface ScrapeScheduleResult {
+  success: boolean;
+  moviesProcessed: number;
+  schedulesAdded: number;
+  errors: string[];
+}
+
+async function postScraper<T>(path: string): Promise<T> {
+  const res = await fetch(`${SCRAPER_URL}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   });
-
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error((body as { error?: string }).error ?? `서버 오류 (${res.status})`);
   }
+  return res.json() as Promise<T>;
+}
 
-  return res.json() as Promise<ScrapeResult>;
+export function scrapeNaverMovies(): Promise<ScrapeResult> {
+  return postScraper<ScrapeResult>('/api/scrape/movies');
+}
+
+export function scrapeNaverSchedules(): Promise<ScrapeScheduleResult> {
+  return postScraper<ScrapeScheduleResult>('/api/scrape/schedules');
+}
+
+export interface ScrapeMovieScheduleResult {
+  success: boolean;
+  schedulesAdded: number;
+}
+
+export function scrapeNaverScheduleForMovie(movieId: string): Promise<ScrapeMovieScheduleResult> {
+  return postScraper<ScrapeMovieScheduleResult>(`/api/scrape/schedules/${movieId}`);
 }
